@@ -1,0 +1,13 @@
+FROM node:16-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm i
+COPY . .
+RUN npm run build
+
+FROM nginx:latest as production
+COPY --from=builder /app/build ./usr/share/nginx/html
+COPY --from=builder /app/nginx/conf.d/default.conf /etc/nginx/conf.d/
+EXPOSE 80
+
+CMD ["pm2-runtime", "start", "ecosystem.config.js"]
