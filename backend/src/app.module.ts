@@ -11,7 +11,6 @@ import { Wish } from './wishes/entities/wish.entity';
 import { Wishlist } from './wishlist/entities/wishlist.entity';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import config from './utils/configuration';
 import { BcryptModule } from './shared/bcrypt.module';
 
 @Module({
