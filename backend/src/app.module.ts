@@ -16,22 +16,26 @@ import { BcryptModule } from './shared/bcrypt.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: config().database.host,
-      port: config().database.port,
-      username: config().database.user,
-      password: config().database.password,
-      database: config().database.database,
-      entities: [User, Offer, Wish, Wishlist],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('POSTGRES_HOST'),
+        port: configService.get('POSTGRES_PORT'),
+        username: configService.get('POSTGRES_USER'),
+        password: configService.get('POSTGRES_PASSWORD'),
+        database: configService.get('POSTGRES_DB'),
+        entities: [User, Offer, Wish, Wishlist],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
     UsersModule,
     WishesModule,
     WishlistModule,
     OffersModule,
     AuthModule,
-    ConfigModule.forRoot({ load: [config] }),
+    ConfigModule.forRoot(),
     BcryptModule,
   ],
   controllers: [AppController],

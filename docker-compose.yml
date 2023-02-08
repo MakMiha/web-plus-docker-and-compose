@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  backend:
+    image: backend
+    container_name: backend
+    build: ./backend
+    ports:
+      - "4000:3000"
+    depends_on:
+      - database
+    restart: unless-stopped
+    env_file:
+      - .env
+
+  database:
+    image: "postgres:12"
+    container_name: database
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  frontend:
+    image: frontend
+    container_name: frontend
+    build: ./frontend
+    ports:
+      - "8081:80"
+    networks:
+      - kupipodariday-network
+    restart: "unless-stopped"
+    depends_on:
+      - frontend
+
+volumes:
+    pg-data:

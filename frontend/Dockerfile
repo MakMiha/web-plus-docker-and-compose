@@ -10,4 +10,4 @@ COPY --from=builder /app/build ./usr/share/nginx/html
 COPY --from=builder /app/nginx/conf.d/default.conf /etc/nginx/conf.d/
 EXPOSE 80
 
-CMD ["pm2-runtime", "start", "ecosystem.config.js"]
+CMD ["nginx", "-g", "daemon off;"]
