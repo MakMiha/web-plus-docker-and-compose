@@ -29,11 +29,9 @@ services:
     build: ./frontend
     ports:
       - "8081:80"
-    networks:
-      - kupipodariday-network
     restart: "unless-stopped"
     depends_on:
-      - frontend
+      - backend
 
 volumes:
     pg-data:
