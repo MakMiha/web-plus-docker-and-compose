@@ -8,5 +8,5 @@ export class CreateWishlistDto {
   image: string;
 
   @IsArray()
-  itemIds: [number];
+  itemsId: [number];
 }
